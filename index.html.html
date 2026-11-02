@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>PETUALANGAN BIOLOGI - SISTEM PENCERNAAN MANUSIA</title>
+  <style>
+    /* ==========================================================================
+       DESAIN DASAR & TOKENS TEMA (DEEP LEARNING - KURIKULUM MERDEKA)
+       ========================================================================== */
+    :root {
+      --primary: #059669;
+      --primary-dark: #047857;
+      --primary-light: #d1fae5;
+      --secondary: #0d9488;
+      --accent: #d97706;
+      --accent-hover: #b45309;
+      --accent-light: #fef3c7;
+      --dark: #0f172a;
+      --dark-card: #1e293b;
+      --light-bg: #f8fafc;
+      --light-card: #ffffff;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --border: #cbd5e1;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --radius: 14px;
+      --shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+      --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-main);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: #0f172a;
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Wadah Aplikasi Mobile-First */
+    #app-container {
+      width: 100%;
+      max-width: 500px;
+      height: 100vh;
+      max-height: 940px;
+      background-color: var(--light-bg);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 0 40px rgba(0,0,0,0.5);
+    }
+
+    @media (min-width: 768px) {
+      #app-container {
+        height: 92vh;
+        border-radius: 24px;
+        border: 2px solid rgba(255,255,255,0.15);
+      }
+    }
+
+    /* Tampilan Layar (Screens) */
+    .screen {
+      display: none;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: var(--light-bg);
+      z-index: 1;
+      padding-bottom: 80px; /* Jarak untuk navigasi bawah */
+    }
+
+    .screen.active {
+      display: flex;
+      z-index: 10;
+    }
+
+    /* Header Utama Aplikasi */
+    .app-header {
+      background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
+      color: white;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .app-header h1 {
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+    }
+
+    .app-header .user-badge {
+      font-size: 0.72rem;
+      background: rgba(255,255,255,0.22);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* Navigasi Bawah (Bottom Navigation) */
+    .bottom-nav {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 65px;
+      background: white;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 100;
+      box-shadow: 0 -3px 12px rgba(0,0,0,0.06);
+    }
+
+    .nav-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.7rem;
+      font-weight: 700;
+      cursor: pointer;
+      width: 25%;
+      height: 100%;
+      transition: all 0.2s;
+    }
+
+    .nav-btn svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+      margin-bottom: 3px;
+    }
+
+    .nav-btn.active {
+      color: var(--primary);
+    }
+
+    /* Kartu Komponen UI */
+    .card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 16px;
+      margin: 12px 16px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+    }
+
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.92rem;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      min-height: 46px;
+      width: 100%;
+      gap: 8px;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);
+    }
+
+    .btn-accent {
+      background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+      color: white;
+      box-shadow: 0 4px 12px rgba(217, 119, 6, 0.25);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-secondary {
+      background: #e2e8f0;
+      color: var(--text-main);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .badge-solo {
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .badge-success {
+      background: #d1fae5;
+      color: #047857;
+    }
+
+    .badge-warning {
+      background: #fef3c7;
+      color: #b45309;
+    }
+
+    /* Element Formulir */
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--dark);
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1.5px solid var(--border);
+      font-size: 0.92rem;
+      outline: none;
+      background: #f8fafc;
+    }
+
+    .form-control:focus {
+      border-color: var(--primary);
+      background: white;
+    }
+
+    /* Tab Komponen */
+    .tabs-header {
+      display: flex;
+      overflow-x: auto;
+      background: #e2e8f0;
+      padding: 4px;
+      border-radius: 12px;
+      margin: 12px 16px 4px 16px;
+      gap: 4px;
+    }
+
+    .tab-btn {
+      flex: 1;
+      white-space: nowrap;
+      padding: 8px 10px;
+      border: none;
+      background: transparent;
+      font-size: 0.78rem;
+      font-weight: 800;
+      border-radius: 8px;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .tab-btn.active {
+      background: white;
+      color: var(--primary-dark);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Tabel Pembelajaran */
+    .custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 0.76rem;
+    }
+
+    .custom-table th, .custom-table td {
+      border: 1px solid var(--border);
+      padding: 8px 10px;
+      text-align: left;
+    }
+
+    .custom-table th {
+      background-color: var(--primary-light);
+      color: var(--primary-dark);
+      font-weight: 800;
+    }
+
+    /* Pilihan Kuis Interaktif */
+    .quiz-opt {
+      background: #f8fafc;
+      border: 2px solid var(--border);
+      padding: 12px 14px;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-main);
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.2s;
+    }
+
+    .quiz-opt.correct {
+      background: #d1fae5;
+      border-color: var(--success);
+      color: #065f46;
+    }
+
+    .quiz-opt.incorrect {
+      background: #fee2e2;
+      border-color: var(--danger);
+      color: #991b1b;
+    }
+
+    /* SVG Anatomi Organ Interaktif */
+    .anatomy-svg-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 300px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .organ-node {
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .organ-node:hover, .organ-node.active {
+      filter: drop-shadow(0 0 8px var(--accent));
+      stroke: var(--accent);
+      stroke-width: 3px;
+    }
+
+    /* Simulator Piringku Sehat Grid & Visual State */
+    .plate-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .food-item-btn {
+      padding: 10px 4px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      background: white;
+      font-size: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.2s ease;
+    }
+
+    .food-item-btn.selected {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      box-shadow: 0 0 0 2px var(--primary);
+    }
+
+    /* Progress Bar */
+    .progress-bar-bg {
+      width: 100%;
+      height: 10px;
+      background: #e2e8f0;
+      border-radius: 5px;
+      overflow: hidden;
+      margin-top: 4px;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      width: 0%;
+      transition: width 0.3s;
+    }
+
+    /* Penjelasan & Refleksi Box */
+    .explanation-box {
+      background: #eff6ff;
+      border-left: 4px solid #3b82f6;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      color: #1e40af;
+      margin-top: 10px;
+      line-height: 1.45;
+    }
+
+    /* Custom Dialog Toast (Pengganti Alert) */
+    #custom-toast {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1e293b;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      z-index: 200;
+      display: none;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      text-align: center;
+      width: 85%;
+      max-width: 360px;
+    }
+
+    /* ==========================================================================
+       MEDIA PRINT CSS (FORMAT SIAP CETAK REKAP LAPORAN A4)
+       ========================================================================== */
+    @media print {
+      body {
+        background: white !important;
+        color: black !important;
+      }
+      #app-container {
+        max-width: 100% !important;
+        height: auto !important;
+        max-height: none !important;
+        box-shadow: none !important;
+        border: none !important;
+        border-radius: 0 !important;
+      }
+      .app-header, .bottom-nav, .btn, .tabs-header, #btn-change-id {
+        display: none !important;
+      }
+      .screen {
+        display: block !important;
+        position: relative !important;
+        padding-bottom: 0 !important;
+        height: auto !important;
+        overflow: visible !important;
+      }
+      .card {
+        box-shadow: none !important;
+        border: 1px solid #94a3b8 !important;
+        margin: 10px 0 !important;
+        page-break-inside: avoid;
+      }
+      .print-only {
+        display: block !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+    }
+
+    .print-only {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="app-container">
+    <!-- NOTIFIKASI TOAST KUSTOM (PENGGANTI ALERT) -->
+    <div id="custom-toast">Notifikasi Pesan</div>
+
+    <!-- HEADER UTAMA APLIKASI -->
+    <header class="app-header">
+      <div>
+        <h1 id="header-title">PETUALANGAN BIOLOGI</h1>
+        <div style="font-size:0.65rem; opacity:0.9;">Sistem Pencernaan • Kelas XI SMA</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <div id="user-info-badge" class="user-badge">
+          <span>👤</span> <span id="user-badge-text">Belum Isi Nama</span>
+        </div>
+        <button id="btn-change-id" style="font-size:0.65rem; background:rgba(255,255,255,0.3); border:none; color:white; padding:4px 8px; border-radius:6px; cursor:pointer; font-weight:700;" onclick="changeUserIdentity()">Ubah</button>
+      </div>
+    </header>
+
+    <!-- LAYAR 1: BERANDA -->
+    <div id="screen-home" class="screen active">
+      <div class="card" style="text-align: center; margin-top: 20px;">
+        <svg width="110" height="110" viewBox="0 0 200 200" style="margin: 0 auto;">
+          <circle cx="100" cy="100" r="90" fill="#d1fae5" />
+          <path d="M 70 60 C 60 90, 50 120, 80 140 C 120 160, 150 130, 140 90 C 130 60, 100 40, 70 60 Z" fill="#f97316" stroke="#ea580c" stroke-width="4" />
+          <path d="M 80 40 L 75 65" stroke="#1e293b" stroke-width="6" stroke-linecap="round" />
+          <path d="M 125 130 L 145 150" stroke="#1e293b" stroke-width="6" stroke-linecap="round" />
+          <circle cx="100" cy="100" r="7" fill="#ffffff" />
+          <circle cx="115" cy="110" r="5" fill="#ffffff" opacity="0.8" />
+        </svg>
+
+        <h2 style="font-size: 1.2rem; margin-top: 14px; color: var(--primary-dark); font-weight:900;">SISTEM PENCERNAAN MANUSIA</h2>
+        <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 8px; line-height:1.45;">
+          Aplikasi Pembelajaran Biologi Interaktif Berbasis Pembelajaran Mendalam (<i>Deep Learning</i>). Jelajahi gizi makanan, anatomi organ, mekanisme enzim, dan tantangan kuis Taksonomi SOLO!
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--primary)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+          Identitas Pembelajaran
+        </div>
+        <p style="font-size: 0.8rem; color: var(--text-main); line-height: 1.55;">
+          <strong>Mata Pelajaran:</strong> Biologi Kelas XI SMA (Fase F)<br>
+          <strong>Pendekatan:</strong> <i>Mindful, Meaningful, & Joyful Learning</i><br>
+          <strong>Kerangka Kuis:</strong> Taksonomi SOLO (Unistruktural hingga Abstrak Diperluas)<br>
+          <strong>Kurikulum:</strong> Kurikulum Merdeka
+        </p>
+      </div>
+
+      <div style="padding: 0 16px; margin-top: 10px;">
+        <button class="btn btn-primary" onclick="checkIdentityAndProceed()">
+          MASUK KE PETUALANGAN
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M5 12h14M12 5l7 7-7 7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- LAYAR 2: IDENTITAS SISWA -->
+    <div id="screen-identity" class="screen">
+      <div class="card" style="margin-top:20px;">
+        <div class="card-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--primary)"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+          Profil Peserta Didik
+        </div>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 16px;">
+          Silakan isi nama lengkap dan pilih kelas Anda untuk merekam progres serta mencetak hasil belajar.
+        </p>
+
+        <div class="form-group">
+          <label for="input-name">Nama Lengkap Siswa <span style="color:var(--danger)">*</span></label>
+          <input type="text" id="input-name" class="form-control" placeholder="Contoh: Budi Santoso" required>
+        </div>
+
+        <div class="form-group">
+          <label for="select-class">Pilih Kelas <span style="color:var(--danger)">*</span></label>
+          <select id="select-class" class="form-control" required style="font-size:0.92rem; padding:12px; font-weight:700; color:var(--dark);">
+            <option value="" disabled selected>-- Pilih Kelas --</option>
+            <option value="XI-5">XI-5</option>
+            <option value="XI-7">XI-7</option>
+            <option value="XI-8">XI-8</option>
+          </select>
+        </div>
+
+        <div id="identity-error-msg" style="display:none; color:var(--danger); font-size:0.8rem; font-weight:700; margin-bottom:12px; background:#fee2e2; padding:8px 12px; border-radius:8px;"></div>
+
+        <button class="btn btn-accent" onclick="saveUserIdentity()">
+          SIMPAN & MASUK DASHBOARD
+        </button>
+      </div>
+    </div>
+
+    <!-- LAYAR 3: DASHBOARD PETUALANGAN -->
+    <div id="screen-dashboard" class="screen">
+      <div style="padding: 16px 16px 0 16px;">
+        <div style="background:var(--primary-light); padding:12px 14px; border-radius:12px; margin-bottom:12px; border:1px solid var(--primary);">
+          <div style="font-size:0.75rem; color:var(--primary-dark); font-weight:700;">Selamat Datang,</div>
+          <div id="dashboard-user-name" style="font-size:1rem; font-weight:900; color:var(--primary-dark);">Siswa Biologi</div>
+        </div>
+        
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+          <h2 style="font-size:1.05rem; color:var(--dark); font-weight:800;">Misi Pembelajaran</h2>
+          <span id="total-progress-pct" style="font-size:0.8rem; font-weight:800; color:var(--primary);">0% Selesai</span>
+        </div>
+        <div class="progress-bar-bg"><div id="total-progress-bar" class="progress-bar-fill"></div></div>
+      </div>
+
+      <!-- Misi 1 -->
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span class="badge badge-solo">Misi 1</span>
+          <span id="badge-m1" class="badge badge-warning">Belum Selesai</span>
+        </div>
+        <h3 style="font-size:1rem; margin-top:6px; color:var(--primary-dark); font-weight:800;">Detektif Gizi Makanan</h3>
+        <p style="font-size:0.75rem; color:var(--text-muted); margin:4px 0 12px 0;">Analisis Zat Makanan, Reaksi Uji Gizi, & Piringku Sehat.</p>
+        <div style="display:flex; gap:8px;">
+          <button class="btn btn-primary" style="font-size:0.8rem; padding:8px;" onclick="openLearningTab(1)">Materi Gizi</button>
+          <button class="btn btn-accent" style="font-size:0.8rem; padding:8px;" onclick="startMissionGame(1)">Game Misi 1</button>
+        </div>
+      </div>
+
+      <!-- Misi 2 -->
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span class="badge badge-solo">Misi 2</span>
+          <span id="badge-m2" class="badge badge-warning">Belum Selesai</span>
+        </div>
+        <h3 style="font-size:1rem; margin-top:6px; color:var(--primary-dark); font-weight:800;">Jelajah Saluran Pencernaan</h3>
+        <p style="font-size:0.75rem; color:var(--text-muted); margin:4px 0 12px 0;">Anatomi Organ, Peristaltik, & Fungsi Spesifik Enzim.</p>
+        <div style="display:flex; gap:8px;">
+          <button class="btn btn-primary" style="font-size:0.8rem; padding:8px;" onclick="openLearningTab(2)">Materi Organ</button>
+          <button class="btn btn-accent" style="font-size:0.8rem; padding:8px;" onclick="startMissionGame(2)">Game Misi 2</button>
+        </div>
+      </div>
+
+      <!-- Misi 3 -->
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span class="badge badge-solo">Misi 3</span>
+          <span id="badge-m3" class="badge badge-warning">Belum Selesai</span>
+        </div>
+        <h3 style="font-size:1rem; margin-top:6px; color:var(--primary-dark); font-weight:800;">Tantangan Kesehatan Pencernaan</h3>
+        <p style="font-size:0.75rem; color:var(--text-muted); margin:4px 0 12px 0;">Studi Kasus Gangguan Pencernaan & Pola Hidup Sehat.</p>
+        <div style="display:flex; gap:8px;">
+          <button class="btn btn-primary" style="font-size:0.8rem; padding:8px;" onclick="openLearningTab(5)">Materi Gangguan</button>
+          <button class="btn btn-accent" style="font-size:0.8rem; padding:8px;" onclick="startMissionGame(3)">Game Misi 3</button>
+        </div>
+      </div>
+
+      <!-- Evaluasi Akhir -->
+      <div class="card" style="border: 2px dashed var(--accent); background: #fff7ed;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span class="badge" style="background:#ffedd5; color:#c2410c;">Asesmen Sumatif</span>
+          <span id="badge-final" class="badge badge-warning">Belum Dikerjakan</span>
+        </div>
+        <h3 style="font-size:1.05rem; margin-top:6px; color:#c2410c; font-weight:900;">EVALUASI AKHIR (ASESMEN SUMATIF)</h3>
+        <p style="font-size:0.75rem; color:var(--text-muted); margin:4px 0 12px 0;">15 Soal Komprehensif menguji tingkat Taksonomi SOLO secara terpadu.</p>
+        <button class="btn btn-accent" onclick="startFinalBoss()">MULAI EVALUASI AKHIR</button>
+      </div>
+    </div>
+
+    <!-- LAYAR 4: ZONA LEARNING (MATERI PEMBELAJARAN) -->
+    <div id="screen-learning" class="screen">
+      <div class="tabs-header">
+        <button class="tab-btn active" onclick="switchTab(1)">Gizi</button>
+        <button class="tab-btn" onclick="switchTab(2)">Organ</button>
+        <button class="tab-btn" onclick="switchTab(3)">Tahapan</button>
+        <button class="tab-btn" onclick="switchTab(4)">Enzim</button>
+        <button class="tab-btn" onclick="switchTab(5)">Gangguan</button>
+      </div>
+
+      <!-- Tab 1: Gizi -->
+      <div id="tab-1" class="tab-content active card">
+        <h3 style="color:var(--primary-dark); font-weight:800;">1. Kandungan Gizi & Uji Makanan</h3>
+        <p style="font-size:0.8rem; color:var(--text-muted); margin-top:4px;">
+          Tubuh manusia membutuhkan zat gizi makro (Karbohidrat, Protein, Lemak) dan gizi mikro (Vitamin, Mineral, Air) serta serat.
+        </p>
+
+        <div style="margin-top:10px; font-size:0.78rem; line-height:1.55;">
+          <p><strong>• Karbohidrat:</strong> Sumber energi utama (4 kcal/g). Diuji menggunakan reagen <i>Lugol/Iodin</i> (warna positif: biru kehitaman) dan <i>Benedict</i> dipanaskan (warna positif: merah bata).</p>
+          <p style="margin-top:6px;"><strong>• Protein:</strong> Zat pembangun sel, pembuat antibodi & enzim (4 kcal/g). Diuji dengan reagen <i>Biuret</i> (warna positif: ungu).</p>
+          <p style="margin-top:6px;"><strong>• Lemak:</strong> Pelarut vitamin A, D, E, K & cadangan energi (9 kcal/g). Diuji dengan kertas HVS (membentuk noda transparan).</p>
+          <p style="margin-top:6px;"><strong>• Vitamin & Mineral:</strong> Mikronutrien pengatur metabolisme & penjaga imunitas tubuh.</p>
+          <p style="margin-top:6px;"><strong>• Serat & Air:</strong> Melancarkan buang air besar (peristaltik) & menjaga pelarutan nutrisi.</p>
+        </div>
+
+        <div class="explanation-box">
+          <strong>Catatan Pembelajaran:</strong> Prinsip <i>Piringku Sehat</i> mengarahkan porsi piring makan harian: 50% makanan pokok (karbohidrat) + lauk pauk (protein), serta 50% buah & sayuran kaya serat.
+        </div>
+      </div>
+
+      <!-- Tab 2: Organ -->
+      <div id="tab-2" class="tab-content card">
+        <h3 style="color:var(--primary-dark); font-weight:800;">2. Organ Pencernaan Interaktif</h3>
+        <p style="font-size:0.75rem; color:var(--text-muted);">Sentuh atau klik bagian organ pada bagan tubuh di bawah untuk membaca rincian fungsinya.</p>
+
+        <div class="anatomy-svg-wrapper" style="margin-top:10px;">
+          <svg width="240" height="300" viewBox="0 0 220 290">
+            <!-- Mulut -->
+            <path id="svg-mulut" class="organ-node" onclick="showOrganInfo('mulut')" fill="#fed7aa" stroke="#f97316" stroke-width="2" d="M 90 20 C 110 20, 125 35, 120 50 C 115 60, 90 60, 85 50 Z"/>
+            <!-- Kerongkongan -->
+            <path id="svg-esofagus" class="organ-node" onclick="showOrganInfo('esofagus')" fill="#cbd5e1" stroke="#64748b" stroke-width="3" d="M 102 55 L 102 105"/>
+            <!-- Hati -->
+            <path id="svg-hati" class="organ-node" onclick="showOrganInfo('hati')" fill="#b91c1c" opacity="0.85" stroke="#991b1b" stroke-width="1.5" d="M 115 108 L 150 115 L 130 135 Z"/>
+            <!-- Lambung -->
+            <path id="svg-lambung" class="organ-node" onclick="showOrganInfo('lambung')" fill="#fca5a5" stroke="#ef4444" stroke-width="2" d="M 98 108 C 78 108, 70 135, 92 145 C 115 155, 125 130, 110 112 Z"/>
+            <!-- Pankreas -->
+            <path id="svg-pankreas" class="organ-node" onclick="showOrganInfo('pankreas')" fill="#fde047" stroke="#ca8a04" stroke-width="2" d="M 95 142 L 125 145 L 115 150 Z"/>
+            <!-- Usus Halus -->
+            <path id="svg-usus_halus" class="organ-node" onclick="showOrganInfo('usus_halus')" fill="#fef08a" stroke="#eab308" stroke-width="2" d="M 90 155 C 75 160, 120 170, 95 180 C 80 190, 120 200, 98 210"/>
+            <!-- Usus Besar -->
+            <path id="svg-usus_besar" class="organ-node" onclick="showOrganInfo('usus_besar')" fill="#bbf7d0" stroke="#16a34a" stroke-width="3" fill-opacity="0.4" d="M 72 145 L 72 215 L 125 215 L 125 145 Z"/>
+            <!-- Rektum & Anus -->
+            <path id="svg-anus" class="organ-node" onclick="showOrganInfo('anus')" fill="#fdba74" stroke="#c2410c" stroke-width="2" d="M 95 215 L 95 240"/>
+
+            <!-- Label Teks SVG -->
+            <text x="132" y="38" font-size="9" fill="#1e293b" font-weight="bold">Mulut</text>
+            <text x="110" y="82" font-size="9" fill="#1e293b" font-weight="bold">Esofagus</text>
+            <text x="36" y="122" font-size="9" fill="#1e293b" font-weight="bold">Lambung</text>
+            <text x="155" y="122" font-size="9" fill="#b91c1c" font-weight="bold">Hati</text>
+            <text x="135" y="180" font-size="9" fill="#1e293b" font-weight="bold">Usus Halus</text>
+            <text x="20" y="180" font-size="9" fill="#16a34a" font-weight="bold">Usus Besar</text>
+          </svg>
+        </div>
+
+        <div id="organ-detail-card" class="explanation-box" style="margin-top:10px;">
+          <strong>Petunjuk Interaktif:</strong> Klik atau sentuh salah satu organ pada gambar di atas untuk menampilkan rincian fungsinya!
+        </div>
+      </div>
+
+      <!-- Tab 3: Tahapan -->
+      <div id="tab-3" class="tab-content card">
+        <h3 style="color:var(--primary-dark); font-weight:800;">3. Tahapan Proses Pencernaan</h3>
+        <div style="font-size:0.78rem; line-height:1.55; margin-top:8px;">
+          <p><strong>1. Ingesti:</strong> Masuknya makanan ke dalam rongga mulut.</p>
+          <p style="margin-top:6px;"><strong>2. Pencernaan Mekanis:</strong> Pemotongan makanan oleh gigi serta pengadukan otot dinding lambung.</p>
+          <p style="margin-top:6px;"><strong>3. Pencernaan Kimiawi:</strong> Penguraian ikatan kimia nutrisi kompleks menjadi molekul sederhana oleh enzim pencernaan.</p>
+          <p style="margin-top:6px;"><strong>4. Gerak Peristaltik:</strong> Gelombang kontraksi otot polos melingkar dan memanjang untuk mendorong bolus/kimus sepanjang saluran pencernaan.</p>
+          <p style="margin-top:6px;"><strong>5. Absorpsi:</strong> Penyerapan sari nutrisi oleh vili (jonjot usus) halus ke pembuluh darah dan limfa.</p>
+          <p style="margin-top:6px;"><strong>6. Defekasi:</strong> Pengeluaran sisa makanan tak tercerna dalam bentuk feses melalui anus.</p>
+        </div>
+      </div>
+
+      <!-- Tab 4: Enzim -->
+      <div id="tab-4" class="tab-content card">
+        <h3 style="color:var(--primary-dark); font-weight:800;">4. Tabel Enzim & Cairan Pencernaan</h3>
+        <div style="overflow-x:auto;">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>Enzim / Cairan</th>
+                <th>Lokasi Kerja</th>
+                <th>Fungsi Spesifik & Reaksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Ptialin (Amilase Saliva)</strong></td>
+                <td>Rongga Mulut</td>
+                <td>Amilum $\rightarrow$ Maltosa (pH netral 7)</td>
+              </tr>
+              <tr>
+                <td><strong>Asam Klorida (HCl)</strong></td>
+                <td>Lambung</td>
+                <td>Membunuh kuman & mengaktifkan pepsinogen (pH asam 2)</td>
+              </tr>
+              <tr>
+                <td><strong>Pepsin</strong></td>
+                <td>Lambung</td>
+                <td>Memecah Protein $\rightarrow$ Pepton</td>
+              </tr>
+              <tr>
+                <td><strong>Renin</strong></td>
+                <td>Lambung</td>
+                <td>Menggumpalkan kasein susu</td>
+              </tr>
+              <tr>
+                <td><strong>Tripsin</strong></td>
+                <td>Usus Halus</td>
+                <td>Memecah Pepton $\rightarrow$ Asam Amino (dari Pankreas)</td>
+              </tr>
+              <tr>
+                <td><strong>Lipase Pankreas</strong></td>
+                <td>Usus Halus</td>
+                <td>Memecah Lemak teremulsi $\rightarrow$ Asam Lemak + Gliserol</td>
+              </tr>
+              <tr>
+                <td><strong>Cairan Empedu</strong></td>
+                <td>Usus Halus</td>
+                <td><strong>Mengemulsi lemak</strong> (Emulgator fisik dari hati, bukan enzim)</td>
+              </tr>
+              <tr>
+                <td><strong>Natrium Bikarbonat</strong></td>
+                <td>Usus Halus</td>
+                <td><strong>Menetralkan keasaman kimus lambung</strong> (menciptakan pH basa 7-8)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tab 5: Gangguan -->
+      <div id="tab-5" class="tab-content card">
+        <h3 style="color:var(--primary-dark); font-weight:800;">5. Gangguan & Kelainan Pencernaan</h3>
+        <div style="font-size:0.78rem; line-height:1.55; margin-top:8px;">
+          <p><strong>• Gastritis (Maag):</strong> Peradangan mukosa dinding lambung akibat produksi HCl berlebih atau infeksi bakteri <i>Helicobacter pylori</i>.</p>
+          <p style="margin-top:6px;"><strong>• GERD:</strong> Refluks asam lambung naik ke esofagus akibat melemahnya otot katup sfingter esofagus bawah.</p>
+          <p style="margin-top:6px;"><strong>• Diare:</strong> Feses encer akibat gangguan penyerapan air di usus besar yang dipicu infeksi patogen.</p>
+          <p style="margin-top:6px;"><strong>• Konstipasi (Sembelit):</strong> Feses keras dan kering akibat penyerapan air berlebih di usus besar karena kurang serat dan minum air.</p>
+          <p style="margin-top:6px;"><strong>• Apendisitis:</strong> Peradangan pada umbai cacing (usus buntu).</p>
+          <p style="margin-top:6px;"><strong>• Intoleransi Laktosa:</strong> Ketidakmampuan mencerna laktosa susu karena kekurangan enzim laktase dalam tubuh.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- LAYAR 5: ZONA SIMULASI -->
+    <div id="screen-explore" class="screen">
+      <div class="tabs-header">
+        <button class="tab-btn active" onclick="switchSim(1)">Piringku</button>
+        <button class="tab-btn" onclick="switchSim(2)">Jalur Organ</button>
+        <button class="tab-btn" onclick="switchSim(3)">Lab Enzim</button>
+      </div>
+
+      <!-- Simulator 1: Piringku Sehat -->
+      <div id="sim-1" class="tab-content active card">
+        <h3 style="color:var(--primary-dark); font-weight:800;">Simulator 'Piringku Sehat'</h3>
+        <p style="font-size:0.75rem; color:var(--text-muted);">Pilih makanan di bawah ini untuk menyusun menu gizi seimbang harian Anda!</p>
+
+        <div class="plate-grid">
+          <button id="food-btn-nasi" class="food-item-btn" onclick="toggleFoodItem('nasi')">🍚 Nasi Putih<br><small>Karbohidrat</small></button>
+          <button id="food-btn-ayam" class="food-item-btn" onclick="toggleFoodItem('ayam')">🍗 Dada Ayam<br><small>Protein</small></button>
+          <button id="food-btn-bayam" class="food-item-btn" onclick="toggleFoodItem('bayam')">🥦 Sayur Bayam<br><small>Serat/Vit</small></button>
+          <button id="food-btn-apel" class="food-item-btn" onclick="toggleFoodItem('apel')">🍎 Buah Apel<br><small>Serat/Vit</small></button>
+          <button id="food-btn-tempe" class="food-item-btn" onclick="toggleFoodItem('tempe')">🟧 Tempe<br><small>Protein</small></button>
+          <button id="food-btn-gorengan" class="food-item-btn" onclick="toggleFoodItem('gorengan')">🍟 Gorengan<br><small>Lemak</small></button>
+        </div>
+
+        <div style="margin-top:14px;">
+          <div style="font-size:0.75rem; font-weight:800;">Keseimbangan Nutrisi Piring:</div>
+          
+          <div style="font-size:0.7rem; margin-top:4px; display:flex; justify-content:space-between;">
+            <span>Karbohidrat Kompleks:</span> <span id="bar-carbo-val">0%</span>
+          </div>
+          <div class="progress-bar-bg"><div id="bar-carbo" class="progress-bar-fill"></div></div>
+
+          <div style="font-size:0.7rem; margin-top:4px; display:flex; justify-content:space-between;">
+            <span>Protein:</span> <span id="bar-prot-val">0%</span>
+          </div>
+          <div class="progress-bar-bg"><div id="bar-prot" class="progress-bar-fill" style="background:var(--secondary);"></div></div>
+
+          <div style="font-size:0.7rem; margin-top:4px; display:flex; justify-content:space-between;">
+            <span>Serat & Vitamin:</span> <span id="bar-fiber-val">0%</span>
+          </div>
+          <div class="progress-bar-bg"><div id="bar-fiber" class="progress-bar-fill" style="background:var(--accent);"></div></div>
+        </div>
+
+        <div id="plate-eval" class="explanation-box" style="margin-top:10px;">
+          Klik makanan di atas untuk melihat evaluasi kecukupan gizi piring Anda!
+        </div>
+      </div>
+
+      <!-- Simulator 2: Jalur Makanan -->
+      <div id="sim-2" class="tab-content card">
+        <h3 style="color:var(--primary-dark); font-weight:800;">Simulasi Perjalanan Makanan</h3>
+        <p style="font-size:0.75rem; color:var(--text-muted);">Klik tiap urutan organ di bawah untuk mempelajari tahapan pencernaan secara berurutan.</p>
+
+        <div style="display:flex; flex-direction:column; gap:8px; margin-top:10px;">
+          <button class="quiz-opt" onclick="stepPipeline(1)">1. Rongga Mulut (Pengunyahan & Enzim Ptialin)</button>
+          <button class="quiz-opt" onclick="stepPipeline(2)">2. Kerongkongan / Esofagus (Gerak Peristaltik)</button>
+          <button class="quiz-opt" onclick="stepPipeline(3)">3. Lambung (Asam HCl & Enzim Pepsin)</button>
+          <button class="quiz-opt" onclick="stepPipeline(4)">4. Usus Halus (Pencernaan Enzimatik & Penyerapan Vili)</button>
+          <button class="quiz-opt" onclick="stepPipeline(5)">5. Usus Besar & Anus (Penyerapan Air & Defekasi)</button>
+        </div>
+
+        <div id="pipeline-status" class="explanation-box" style="margin-top:10px;">
+          Klik salah satu urutan organ di atas untuk memulai simulasi jalur makanan!
+        </div>
+      </div>
+
+      <!-- Simulator 3: Lab Enzim -->
+      <div id="sim-3" class="tab-content card">
+        <h3 style="color:var(--primary-dark); font-weight:800;">Lab Mini Reaksi Enzim</h3>
+        <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:10px;">Uji kesesuaian enzim, substrat makanan, dan kondisi derajat keasaman (pH).</p>
+
+        <div class="form-group">
+          <label for="enz-select">Pilih Enzim</label>
+          <select id="enz-select" class="form-control">
+            <option value="ptialin">Ptialin (Saliva Mulut)</option>
+            <option value="pepsin">Pepsin (Lambung)</option>
+            <option value="lipase">Lipase Pankreas (Usus Halus)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="sub-select">Pilih Substrat Makanan</label>
+          <select id="sub-select" class="form-control">
+            <option value="amilum">Amilum (Nasi/Roti)</option>
+            <option value="protein">Protein (Dada Ayam/Telur)</option>
+            <option value="lemak">Lemak (Minyak/Mentega)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="ph-select">Kondisi Keasaman (pH)</label>
+          <select id="ph-select" class="form-control">
+            <option value="2">pH 2 (Sangat Asam - Lambung)</option>
+            <option value="7">pH 7 (Netral - Mulut)</option>
+            <option value="8">pH 8 (Basa - Usus Halus)</option>
+          </select>
+        </div>
+
+        <button class="btn btn-primary" onclick="runEnzymeLab()">UJI REAKSI ENZIM</button>
+
+        <div id="enz-lab-result" class="explanation-box" style="margin-top:10px; display:none;"></div>
+      </div>
+    </div>
+
+    <!-- LAYAR 6: ZONA GAME KUIS (SOLO TAXONOMY ENGINE) -->
+    <div id="screen-game" class="screen">
+      <div class="card" style="margin-top:16px;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span id="quiz-mission-title" class="badge badge-solo">Game Misi 1</span>
+          <span id="quiz-progress" style="font-size:0.78rem; font-weight:800;">Soal 1 / 10</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:6px; margin-top:6px;">
+          <span style="font-size:0.72rem; font-weight:700; color:var(--text-muted);">Tingkat Taksonomi SOLO:</span>
+          <span id="quiz-solo-level" class="badge badge-success">Unistruktural</span>
+        </div>
+
+        <div id="quiz-question-text" style="font-size:0.92rem; font-weight:800; margin-top:12px; color:var(--dark); line-height:1.45;">
+          Pertanyaan akan ditampilkan di sini...
+        </div>
+
+        <div id="quiz-options-container" style="margin-top:14px;"></div>
+
+        <div id="quiz-feedback-box" class="explanation-box" style="display:none; margin-top:10px;"></div>
+
+        <div style="margin-top:14px; display:flex; gap:8px;">
+          <button id="btn-next-quiz" class="btn btn-accent" onclick="nextQuizQuestion()" style="display:none;">SOAL SELANJUTNYA ➔</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- LAYAR 7: ZONA HASIL & REFLEKSI (DEEP LEARNING 3M) -->
+    <div id="screen-result" class="screen">
+      <!-- Tampilan Ringkasan Hasil Belajar -->
+      <div class="card" style="text-align:center; margin-top:20px;">
+        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" style="margin:0 auto;">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+        <h2 style="color:var(--primary-dark); margin-top:8px; font-weight:900;">HASIL & PENCAPAIAN BELAJAR</h2>
+        
+        <div style="margin-top:8px; background:var(--primary-light); padding:8px 14px; border-radius:10px; display:inline-block;">
+          <p id="result-student-name" style="font-size:0.95rem; font-weight:900; color:var(--primary-dark);">Nama Peserta Didik</p>
+          <p id="result-student-class" style="font-size:0.8rem; font-weight:700; color:var(--secondary);">Kelas XI</p>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:14px; text-align:center;">
+          <div style="background:#f8fafc; padding:10px; border-radius:10px; border:1px solid var(--border);">
+            <div style="font-size:0.7rem; color:var(--text-muted); font-weight:700;">Skor Akumulasi Kuis</div>
+            <div id="result-score" style="font-size:1.5rem; font-weight:900; color:var(--primary-dark);">0</div>
+          </div>
+          <div style="background:#f8fafc; padding:10px; border-radius:10px; border:1px solid var(--border);">
+            <div style="font-size:0.7rem; color:var(--text-muted); font-weight:700;">Tingkat Capaian SOLO</div>
+            <div id="result-solo-cap" style="font-size:0.85rem; font-weight:900; color:var(--accent);">Unistruktural</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Formulir Refleksi Deep Learning (3M) -->
+      <div class="card">
+        <div class="card-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--primary)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+          Refleksi Deep Learning (3M)
+        </div>
+
+        <div class="form-group">
+          <label for="refl-1">1. Mindful (Kesadaran Pola Makan Harian)</label>
+          <textarea id="refl-1" class="form-control" rows="2" placeholder="Kebiasaan makan atau pola konsumsi apa yang perlu Anda perbaiki setelah mempelajari bab ini?"></textarea>
+          <div id="print-refl-1" class="print-only" style="margin-top:4px; font-weight:bold;"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="refl-2">2. Meaningful (Kebermanfaatan Konsep Biologi)</label>
+          <textarea id="refl-2" class="form-control" rows="2" placeholder="Bagaimana pemahaman Anda tentang organ dan enzim membantu Anda memilih makanan yang lebih sehat?"></textarea>
+          <div id="print-refl-2" class="print-only" style="margin-top:4px; font-weight:bold;"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="refl-3">3. Joyful (Pengalaman Belajar Interaktif)</label>
+          <textarea id="refl-3" class="form-control" rows="2" placeholder="Fitur atau simulasi mana yang paling menarik dan membantu Anda memahami materi pencernaan?"></textarea>
+          <div id="print-refl-3" class="print-only" style="margin-top:4px; font-weight:bold;"></div>
+        </div>
+
+        <button class="btn btn-primary no-print" onclick="saveReflection()">SIMPAN REFLEKSI BELAJAR</button>
+      </div>
+
+      <div style="padding: 0 16px; margin-bottom: 25px;" class="no-print">
+        <button class="btn btn-outline" onclick="printReport()">
+          🖨️ CETAK LAPORAN HASIL BELAJAR (A4)
+        </button>
+      </div>
+    </div>
+
+    <!-- NAVIGASI BAWAH -->
+    <nav class="bottom-nav">
+      <button class="nav-btn active" onclick="showScreen('screen-dashboard')">
+        <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        Dashboard
+      </button>
+      <button class="nav-btn" onclick="showScreen('screen-learning')">
+        <svg viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg>
+        Materi
+      </button>
+      <button class="nav-btn" onclick="showScreen('screen-explore')">
+        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+        Simulasi
+      </button>
+      <button class="nav-btn" onclick="showScreen('screen-result')">
+        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg>
+        Hasil
+      </button>
+    </nav>
+  </div>
+
+  <!-- ==========================================================================
+       LOGIKA JAVASCRIPT APLIKASI
+       ========================================================================== -->
+  <script>
+    /* Status Utama Aplikasi (Global State) */
+    const appState = {
+      user: { name: "", class: "" },
+      scores: { m1: 0, m2: 0, m3: 0, final: 0 },
+      completed: { m1: false, m2: false, m3: false, final: false },
+      currentMission: 1,
+      currentQuestionIdx: 0,
+      activeQuizList: [],
+      selectedFood: [],
+      reflection: { mindful: "", meaningful: "", joyful: "" }
+    };
+
+    /* Penjelasan Organ Pencernaan */
+    const organData = {
+      mulut: "<strong>Mulut:</strong> Terjadi pencernaan mekanis oleh gigi dan lidah, serta pencernaan kimiawi oleh enzim Ptialin (Amilase Saliva) yang menguraikan amilum menjadi maltosa.",
+      esofagus: "<strong>Kerongkongan (Esofagus):</strong> Saluran otot sepanjang sekitar 25 cm yang melakukan gerak peristaltik untuk meremas dan mendorong bolus makanan menuju lambung.",
+      lambung: "<strong>Lambung:</strong> Memproduksi Asam Klorida (HCl, pH 2 untuk membunuh kuman dan mengaktifkan pepsinogen), enzim Pepsin (memecah protein menjadi pepton), dan Renin (menggumpalkan kasein susu).",
+      hati: "<strong>Hati & Kantung Empedu:</strong> Memproduksi dan menyimpan cairan empedu yang berfungsi sebagai <em>emulgator fisik</em> untuk mengemulsi lemak menjadi tetesan kecil agar mudah diurai enzim lipase.",
+      pankreas: "<strong>Pankreas:</strong> Menghasilkan Natrium Bikarbonat untuk <em>menetralkan keasaman kimus lambung</em> serta enzim Tripsin, Lipase Pankreas, dan Amilase Pankreas.",
+      usus_halus: "<strong>Usus Halus (Duodenum, Jejunum, Ileum):</strong> Tempat pencernaan kimiawi tingkat lanjut dan penyerapan (absorpsi) sari makanan oleh vili (jonjot usus) ke pembuluh darah dan limfa.",
+      usus_besar: "<strong>Usus Besar (Kolon):</strong> Tempat penyerapan air dan pembentukan massa feses dengan bantuan bakteri pembusuk <i>Escherichia coli</i>.",
+      anus: "<strong>Rektum & Anus:</strong> Rektum berfungsi sebagai penampung sementara feses sebelum dikeluarkan melalui anus pada proses defekasi."
+    };
+
+    /* Bank Soal Berdasarkan Taksonomi SOLO (Misi 1, Misi 2, Misi 3, & Evaluasi Akhir) */
+    const quizData = {
+      m1: [
+        { solo: "Unistruktural", q: "Reagen manakah yang digunakan khusus untuk menguji adanya kandungan amilum (karbohidrat) pada makanan?", opts: ["Biuret", "Lugol / Iodin", "Benedict", "Kertas HVS"], ans: 1, exp: "Lugol/Iodin bereaksi dengan amilum menghasilkan perubahan warna biru kehitaman." },
+        { solo: "Unistruktural", q: "Zat makanan yang menghasilkan energi paling tinggi per gramnya (9 kcal/g) adalah...", opts: ["Karbohidrat", "Protein", "Lemak", "Vitamin"], ans: 2, exp: "Lemak menghasilkan energi sebesar 9 kcal/g, lebih tinggi dibanding karbohidrat (4 kcal/g) dan protein (4 kcal/g)." },
+        { solo: "Multistruktural", q: "Manakah pasangan reagen dan perubahan warna positif yang BENAR?", opts: ["Biuret -> Merah Bata", "Lugol -> Ungu", "Benedict + Dipanaskan -> Merah Bata", "Kertas HVS -> Biru Tua"], ans: 2, exp: "Uji Benedict yang dipanaskan bersama gula pereduksi akan membentuk endapan merah bata." },
+        { solo: "Multistruktural", q: "Manakah zat gizi di bawah ini yang tergolong sebagai mikronutrien (zat gizi mikro)?", opts: ["Karbohidrat & Protein", "Vitamin & Mineral", "Lemak & Serat", "Glukosa & Asam Amino"], ans: 1, exp: "Vitamin dan mineral dibutuhkan tubuh dalam jumlah relatif kecil (mikronutrien)." },
+        { solo: "Relasional", q: "Seorang siswa menguji sampel makanan dengan Biuret menghasilkan warna ungu, sedangkan dengan Lugol warnanya tetap cokelat keemasan. Kesimpulan yang benar adalah...", opts: ["Mengandung Amilum saja", "Mengandung Protein dan tidak mengandung Amilum", "Mengandung Lemak dan Amilum", "Tidak mengandung gizi"], ans: 1, exp: "Warna ungu pada reagen Biuret menandakan positif protein, sedangkan Lugol yang tidak berubah warna menandakan negatif amilum." },
+        { solo: "Relasional", q: "Mengapa konsumsi serat pangan sangat penting meskipun serat tidak dapat diserap oleh pembuluh darah?", opts: ["Sebagai sumber kalori utama", "Mengikat air di usus besar untuk melunakkan feses dan merangsang peristaltik", "Mengemulsi molekul lemak di usus halus", "Mengaktifkan asam HCl di lambung"], ans: 1, exp: "Serat menyerap dan mengikat air sehingga massa feses menjadi lunak dan mudah dikeluarkan." },
+        { solo: "Abstrak Diperluas", q: "Seorang penderita diabetes melitus perlu menjaga kadar gula darahnya agar tetap stabil. Pilihan karbohidrat manakah yang paling disarankan?", opts: ["Gula pasir murni", "Nasi merah / Beras hitam kaya serat", "Sirup jagung tinggi fruktosa", "Roti tawar putih terigu murni"], ans: 1, exp: "Nasi merah mengandung karbohidrat kompleks berpemanis serat tinggi yang diserap secara bertahap (Indeks Glikemik rendah)." },
+        { solo: "Abstrak Diperluas", q: "Mengapa anak yang mengalami kondisi Kwashiorkor (kekurangan protein) memiliki perut yang membesar/buncit (edema)?", opts: ["Penumpukan amilum yang tidak tercerna", "Penurunan albumin darah memicu penurunan tekanan onkotik plasma sehingga cairan merembes ke jaringan perut", "Peningkatan deposit jaringan lemak", "Pertumbuhan bakteri E. coli berlebih"], ans: 1, exp: "Defisiensi protein menurunkan albumin plasma darah sehingga cairan intravaskular merembes mengisi rongga perut." },
+        { solo: "Unistruktural", q: "Kelompok vitamin manakah yang larut dalam lemak?", opts: ["Vitamin B dan C", "Vitamin A, D, E, dan K", "Vitamin C dan K", "Vitamin B12 dan Biotin"], ans: 1, exp: "Vitamin larut lemak terdiri atas Vitamin A, D, E, dan K." },
+        { solo: "Multistruktural", q: "Fungsi utama mineral Kalsium (Ca) dan Fosfor (P) di dalam tubuh manusia adalah...", opts: ["Pembentukan sel darah merah", "Pembentukan dan pemeliharaan struktur tulang serta gigi", "Bahan utama enzim ptialin", "Pelarut utama vitamin C"], ans: 1, exp: "Kalsium dan fosfor merupakan mineral pembentuk matriks utama tulang dan gigi." }
+      ],
+      m2: [
+        { solo: "Unistruktural", q: "Enzim pencernaan yang dihasilkan oleh kelenjar ludah di rongga mulut adalah...", opts: ["Pepsin", "Ptialin (Amilase Saliva)", "Tripsin", "Lipase"], ans: 1, exp: "Enzim ptialin bekerja di rongga mulut menguraikan amilum menjadi disakarida maltosa." },
+        { solo: "Unistruktural", q: "Gerakan kontraksi otot polos melingkar dan memanjang yang mendorong makanan sepanjang saluran pencernaan disebut...", opts: ["Gerak Amoeboid", "Gerak Peristaltik", "Gerak Siliaris", "Gerak Osmosis"], ans: 1, exp: "Peristaltik adalah gerakan meremas dan mendorong makanan di sepanjang saluran pencernaan." },
+        { solo: "Multistruktural", q: "Tiga bagian utama usus halus secara berurutan mulai dari lambung adalah...", opts: ["Ileum - Jejunum - Duodenum", "Duodenum - Jejunum - Ileum", "Kolon - Sekum - Rektum", "Jejunum - Duodenum - Ileum"], ans: 1, exp: "Urutan usus halus: Duodenum (usus 12 jari), Jejunum (usus kosong), dan Ileum (usus penyerapan)." },
+        { solo: "Multistruktural", q: "Zat cair dan enzim yang dihasilkan oleh organ lambung untuk pencernaan protein adalah...", opts: ["Ptialin dan Bikarbonat", "Asam Klorida (HCl) dan Pepsin", "Empedu dan Tripsin", "Lipase dan Laktase"], ans: 1, exp: "Lambung menghasilkan asam HCl untuk membunuh kuman & mengaktifkan pepsinogen menjadi enzim Pepsin." },
+        { solo: "Relasional", q: "Cairan empedu dihasilkan oleh hati dan dialirkan ke usus halus. Apakah peran utama cairan empedu tersebut?", opts: ["Memecah protein menjadi asam amino", "Mengemulsi lemak secara fisik menjadi tetesan kecil agar mudah diurai lipase", "Menetralkan asam HCl dari lambung", "Menggumpalkan kasein susu"], ans: 1, exp: "Empedu berfungsi sebagai emulgator fisik yang memperluas permukaan lemak agar efektif diurai enzim lipase." },
+        { solo: "Relasional", q: "Pankreas mengalirkan Natrium Bikarbonat ke usus halus. Apakah dampak fisiologis penting dari proses tersebut?", opts: ["Menurunkan pH usus menjadi sangat asam", "Menetralkan keasaman kimus lambung sehingga menciptakan pH optimal (7-8) untuk kerja enzim usus", "Membunuh seluruh bakteri di usus", "Mencegah penyerapan air"], ans: 1, exp: "Natrium bikarbonat menetralkan keasaman kimus dari lambung sehingga lingkungan usus halus menjadi netral-basa." },
+        { solo: "Abstrak Diperluas", q: "Seorang pasien menjalani operasi pengangkatan kantung empedu. Penyesuaian pola makan manakah yang paling tepat?", opts: ["Menghindari makanan karbohidrat kompleks", "Membatasi konsumsi makanan tinggi lemak dan minyak", "Dilarang minum air putih", "Hanya mengonsumsi daging tanpa sayuran"], ans: 1, exp: "Tanpa kantung empedu, penampungan emulsi empedu berkurang sehingga konsumsi lemak harus dibatasi." },
+        { solo: "Abstrak Diperluas", q: "Dinding dalam usus halus memiliki lipatan jonjot (vili) yang sangat banyak. Manakah penjelasan biologis yang paling tepat mengenai struktur ini?", opts: ["Mempercepat pembusukan sisa makanan", "Memperluas permukaan bidang absorpsi (penyerapan) nutrisi ke pembuluh darah dan limfa", "Mencegah masuknya asam lambung", "Memproduksi hormon insulin"], ans: 1, exp: "Lipatan vili dan mikrovili memperluas area permukaan usus hingga ratusan meter persegi untuk penyerapan efisien." },
+        { solo: "Unistruktural", q: "Organ yang berfungsi membusukkan sisa makanan dan menyerap kembali air adalah...", opts: ["Lambung", "Usus Besar (Kolon)", "Usus Halus", "Kerongkongan"], ans: 1, exp: "Usus besar menyerap air dan membentuk massa feses dengan bantuan bakteri *E. coli*." },
+        { solo: "Multistruktural", q: "Enzim tripsin yang dihasilkan pankreas bekerja di usus halus dengan fungsi memecah...", opts: ["Amilum menjadi Glukosa", "Pepton / Protein menjadi Asam Amino", "Lemak menjadi Gliserol", "Maltosa menjadi Sukrosa"], ans: 1, exp: "Tripsin menguraikan molekul pepton/protein menjadi monomer asam amino." }
+      ],
+      m3: [
+        { solo: "Unistruktural", q: "Peradangan pada mukosa dinding lambung yang memicu rasa perih dinamakan...", opts: ["Apendisitis", "Gastritis (Maag)", "Hepatitis", "Diare"], ans: 1, exp: "Gastritis adalah iritasi atau peradangan pada dinding mukosa lambung." },
+        { solo: "Multistruktural", q: "Penyebab utama timbulnya gangguan Diare adalah...", opts: ["Kekurangan enzim ptialin", "Infeksi mikroorganisme yang mengganggu penyerapan air di usus besar", "Terlalu banyak makan serat buah", "Kelebihan empedu di dalam hati"], ans: 1, exp: "Patogen memicu iritasi dinding kolon sehingga penyerapan air terganggu dan feses menjadi encer." },
+        { solo: "Relasional", q: "Mengapa kebiasaan menahan buang air besar dan kurang minum air dapat memicu Konstipasi (Sembelit)?", opts: ["Menghambat kerja enzim pepsin", "Feses terlalu lama berada di kolon sehingga penyerapan air terjadi berlebihan dan feses menjadi keras", "Merusak katup esofagus", "Meningkatkan sintesis vitamin K"], ans: 1, exp: "Semakin lama penundaan di kolon, semakin banyak air yang terserap kembali ke tubuh sehingga feses mengeras." },
+        { solo: "Abstrak Diperluas", q: "Penderita GERD sering merasakan sensasi terbakar di dada (heartburn). Upaya pencegahan manakah yang paling tepat secara fisiologis?", opts: ["Langsung tidur terlentang setelah makan", "Membatasi makanan pedas/asam dan tidak berbaring sesaat setelah makan", "Minum perasan jeruk pekat sebelum tidur", "Mengunyah makanan secara cepat"], ans: 1, exp: "Mencegah kelonggaran sfingter esofagus bawah dan membatasi refluks asam lambung naik ke kerongkongan." },
+        { solo: "Unistruktural", q: "Peradangan pada organ hati yang umumnya disebabkan oleh infeksi virus dinamakan...", opts: ["Gastritis", "Hepatitis", "Apendisitis", "Konstipasi"], ans: 1, exp: "Hepatitis adalah peradangan pada sel-sel organ hati (hepar)." },
+        { solo: "Multistruktural", q: "Gejala khas yang dirasakan oleh penderita Apendisitis (radang usus buntu) adalah...", opts: ["Nyeri tajam terlokalisasi di perut kanan bawah", "Rasa manis berlebih pada lidah", "Gigi terasa ngilu saat minum es", "Warna kuku menguning"], ans: 0, exp: "Apendisitis menimbulkan peradangan dan rasa nyeri hebat di perut kanan bawah." },
+        { solo: "Relasional", q: "Seseorang yang mengalami Intoleransi Laktosa merasa mulas setelah minum susu sapi. Penyebab biologis utamanya adalah...", opts: ["Kelebihan asam HCl di lambung", "Tubuh tidak cukup memproduksi enzim laktase untuk memecah gula laktosa susu", "Lambung tidak mampu menampung cairan", "Alergi terhadap garam dapur"], ans: 1, exp: "Kurangnya enzim laktase menyebabkan gula laktosa terfermentasi oleh bakteri usus menghasilkan gas dan kram." },
+        { solo: "Abstrak Diperluas", q: "Bagaimana penggunaan obat antibiotik secara berlebihan tanpa resep dokter dapat mengganggu fungsi usus?", opts: ["Membunuh mikrobioma bakteri baik (E. coli) penghasil vitamin K dan pelindung usus", "Menghentikan gerakan peristaltik usus secara total", "Merusak struktur enamel gigi", "Merusak katup lambung"], ans: 0, exp: "Antibiotik dapat merusak keseimbangan bakteri menguntungkan di usus besar." },
+        { solo: "Unistruktural", q: "Pelebaran pembuluh darah vena pada daerah anus yang memicu pendarahan saat defekasi dinamakan...", opts: ["Tukak Lambung", "Hemoroid (Ambeien)", "GERD", "Gastritis"], ans: 1, exp: "Hemoroid adalah pembengkakan atau pembesaran pembuluh darah vena di sekitar rektum dan anus." },
+        { solo: "Multistruktural", q: "Pencegahan utama gangguan keracunan makanan di lingkungan sekolah dapat dilakukan dengan...", opts: ["Mencuci tangan pakai sabun dan menjaga higienitas makanan", "Makan makanan tanpa dicuci", "Minum es yang kotor", "Makan makanan yang sudah basi"], ans: 0, exp: "Menjaga kebersihan tangan dan higienitas sanitasi makanan mencegah paparan patogen penyebab penyakit." }
+      ]
+    };
+
+    /* Menyusun Kuis Evaluasi Akhir (15 Soal Campuran dari M1, M2, M3) */
+    quizData.final = [
+      ...quizData.m1.slice(0, 5),
+      ...quizData.m2.slice(0, 5),
+      ...quizData.m3.slice(0, 5)
+    ];
+
+    /* Inisialisasi Saat Halaman Dimuat */
+    window.addEventListener('DOMContentLoaded', () => {
+      loadUserIdentity();
+    });
+
+    /* Notifikasi Toast Kustom */
+    function showToast(message) {
+      const toast = document.getElementById('custom-toast');
+      toast.innerText = message;
+      toast.style.display = 'block';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 3000);
+    }
+
+    /* Pengelolaan Identitas Siswa */
+    function loadUserIdentity() {
+      try {
+        const saved = localStorage.getItem('bio_adv_user');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (parsed && parsed.name && parsed.class) {
+            appState.user = parsed;
+            updateUserDisplay();
+          }
+        }
+      } catch (e) {
+        console.warn("Penyimpanan lokal tidak tersedia:", e);
+      }
+    }
+
+    function checkIdentityAndProceed() {
+      if (appState.user.name && appState.user.class) {
+        showScreen('screen-dashboard');
+      } else {
+        showScreen('screen-identity');
+      }
+    }
+
+    function saveUserIdentity() {
+      const nameInput = document.getElementById('input-name').value.trim();
+      const classSelect = document.getElementById('select-class').value;
+      const errorMsg = document.getElementById('identity-error-msg');
+
+      const validClasses = ["XI-5", "XI-7", "XI-8"];
+
+      if (!nameInput) {
+        errorMsg.innerText = "❌ Harap mengisikan Nama Lengkap Anda!";
+        errorMsg.style.display = "block";
+        return;
+      }
+
+      if (!classSelect || !validClasses.includes(classSelect)) {
+        errorMsg.innerText = "❌ Silakan pilih salah satu kelas: XI-5, XI-7, atau XI-8!";
+        errorMsg.style.display = "block";
+        return;
+      }
+
+      errorMsg.style.display = "none";
+      appState.user.name = nameInput;
+      appState.user.class = classSelect;
+
+      try {
+        localStorage.setItem('bio_adv_user', JSON.stringify(appState.user));
+      } catch (e) {
+        console.warn("Storage warning:", e);
+      }
+
+      updateUserDisplay();
+      showToast("✅ Identitas peserta didik berhasil disimpan!");
+      showScreen('screen-dashboard');
+    }
+
+    function updateUserDisplay() {
+      if (appState.user.name && appState.user.class) {
+        document.getElementById('user-badge-text').innerText = `${appState.user.name} (${appState.user.class})`;
+        document.getElementById('dashboard-user-name').innerText = `${appState.user.name} — Kelas ${appState.user.class}`;
+        document.getElementById('result-student-name').innerText = appState.user.name;
+        document.getElementById('result-student-class').innerText = `Kelas ${appState.user.class}`;
+        
+        document.getElementById('input-name').value = appState.user.name;
+        document.getElementById('select-class').value = appState.user.class;
+      }
+    }
+
+    function changeUserIdentity() {
+      showScreen('screen-identity');
+    }
+
+    /* Pengendali Navigasi Layar */
+    function showScreen(screenId) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      const target = document.getElementById(screenId);
+      if (target) target.classList.add('active');
+
+      document.querySelectorAll('.nav-btn').forEach((btn, idx) => {
+        btn.classList.remove('active');
+        if (screenId === 'screen-dashboard' && idx === 0) btn.classList.add('active');
+        if (screenId === 'screen-learning' && idx === 1) btn.classList.add('active');
+        if (screenId === 'screen-explore' && idx === 2) btn.classList.add('active');
+        if (screenId === 'screen-result' && idx === 3) btn.classList.add('active');
+      });
+    }
+
+    /* Tab Zona Learning */
+    function switchTab(tabIdx) {
+      document.querySelectorAll('#screen-learning .tab-btn').forEach((btn, idx) => {
+        btn.classList.toggle('active', idx === (tabIdx - 1));
+      });
+      document.querySelectorAll('#screen-learning .tab-content').forEach((cnt, idx) => {
+        cnt.classList.toggle('active', idx === (tabIdx - 1));
+      });
+    }
+
+    function openLearningTab(tabIdx) {
+      showScreen('screen-learning');
+      switchTab(tabIdx);
+    }
+
+    function showOrganInfo(key) {
+      document.querySelectorAll('.organ-node').forEach(node => node.classList.remove('active'));
+      const el = document.getElementById(`svg-${key}`);
+      if (el) el.classList.add('active');
+
+      const card = document.getElementById('organ-detail-card');
+      if (organData[key]) {
+        card.innerHTML = organData[key];
+      }
+    }
+
+    /* Pengendali Simulator */
+    function switchSim(simIdx) {
+      document.querySelectorAll('#screen-explore .tab-btn').forEach((btn, idx) => {
+        btn.classList.toggle('active', idx === (simIdx - 1));
+      });
+      document.querySelectorAll('#screen-explore .tab-content').forEach((cnt, idx) => {
+        cnt.classList.toggle('active', idx === (simIdx - 1));
+      });
+    }
+
+    /* Simulator 1: Piringku Sehat */
+    const foodNutrients = {
+      nasi: { carbo: 40, prot: 5, fiber: 2 },
+      ayam: { carbo: 0, prot: 45, fiber: 0 },
+      bayam: { carbo: 5, prot: 5, fiber: 40 },
+      apel: { carbo: 15, prot: 0, fiber: 35 },
+      tempe: { carbo: 10, prot: 30, fiber: 15 },
+      gorengan: { carbo: 25, prot: 2, fiber: 0 }
+    };
+
+    function toggleFoodItem(key) {
+      const btn = document.getElementById(`food-btn-${key}`);
+      const idx = appState.selectedFood.indexOf(key);
+
+      if (idx > -1) {
+        appState.selectedFood.splice(idx, 1);
+        if (btn) btn.classList.remove('selected');
+      } else {
+        appState.selectedFood.push(key);
+        if (btn) btn.classList.add('selected');
+      }
+      updatePlateAnalysis();
+    }
+
+    function updatePlateAnalysis() {
+      let carbo = 0, prot = 0, fiber = 0;
+      appState.selectedFood.forEach(k => {
+        carbo += foodNutrients[k].carbo;
+        prot += foodNutrients[k].prot;
+        fiber += foodNutrients[k].fiber;
+      });
+
+      const carboPct = Math.min(carbo, 100);
+      const protPct = Math.min(prot, 100);
+      const fiberPct = Math.min(fiber, 100);
+
+      document.getElementById('bar-carbo').style.width = carboPct + '%';
+      document.getElementById('bar-carbo-val').innerText = carboPct + '%';
+
+      document.getElementById('bar-prot').style.width = protPct + '%';
+      document.getElementById('bar-prot-val').innerText = protPct + '%';
+
+      document.getElementById('bar-fiber').style.width = fiberPct + '%';
+      document.getElementById('bar-fiber-val').innerText = fiberPct + '%';
+
+      const evalBox = document.getElementById('plate-eval');
+      if (appState.selectedFood.length === 0) {
+        evalBox.innerHTML = "Klik makanan di atas untuk melihat evaluasi kecukupan gizi piring Anda!";
+      } else if (carboPct >= 30 && protPct >= 30 && fiberPct >= 30) {
+        evalBox.innerHTML = "<strong style='color:var(--success);'>🎉 Piring Sehat Sempurna!</strong> Kombinasi Anda memenuhi porsi 50% karbohidrat + protein dan 50% buah & sayuran kaya serat sesuai anjuran gizi seimbang!";
+      } else {
+        evalBox.innerHTML = "<strong style='color:var(--warning);'>⚠️ Belum Seimbang:</strong> Lengkapi kombinasi makanan Anda agar proporsi Karbohidrat, Protein, serta Serat dan Vitamin seimbang!";
+      }
+    }
+
+    /* Simulator 2: Perjalanan Makanan */
+    function stepPipeline(step) {
+      const box = document.getElementById('pipeline-status');
+      const textMap = {
+        1: "<strong>1. Rongga Mulut:</strong> Pemotongan mekanis oleh gigi dan pembentukan bolus. Enzim Ptialin menguraikan amilum kompleks menjadi disakarida maltosa.",
+        2: "<strong>2. Kerongkongan (Esofagus):</strong> Bolus didorong menuju lambung melalui gelombang kontraksi otot polos (Gerak Peristaltik).",
+        3: "<strong>3. Lambung:</strong> Makanan diaduk menjadi cairan pekat (kimus). Asam HCl (pH 2) membunuh kuman dan mengaktifkan enzim Pepsin untuk memecah protein menjadi pepton.",
+        4: "<strong>4. Usus Halus:</strong> Bikarbonat menetralkan kimus. Enzim Tripsin dan Lipase memecah nutrisi murni, yang diserap oleh vili ke pembuluh darah dan limfa.",
+        5: "<strong>5. Usus Besar & Anus:</strong> Penyerapan sisa air dan pembusukan ampas oleh bakteri <i>E. coli</i> membentuk massa feses sebelum dikeluarkan melalui anus."
+      };
+      box.innerHTML = textMap[step] || "";
+    }
+
+    /* Simulator 3: Lab Enzim */
+    function runEnzymeLab() {
+      const enz = document.getElementById('enz-select').value;
+      const sub = document.getElementById('sub-select').value;
+      const ph = document.getElementById('ph-select').value;
+      const box = document.getElementById('enz-lab-result');
+
+      box.style.display = 'block';
+
+      if (enz === 'ptialin' && sub === 'amilum' && ph === '7') {
+        box.className = "explanation-box";
+        box.style.borderLeftColor = "var(--success)";
+        box.innerHTML = "<strong>✅ REAKSI BERHASIL! (Optimum)</strong><br>Enzim Ptialin bekerja optimal pada pH 7 (Netral) di mulut untuk menguraikan Amilum menjadi Maltosa!";
+      } else if (enz === 'pepsin' && sub === 'protein' && ph === '2') {
+        box.className = "explanation-box";
+        box.style.borderLeftColor = "var(--success)";
+        box.innerHTML = "<strong>✅ REAKSI BERHASIL! (Optimum)</strong><br>Enzim Pepsin teraktivasi sempurna pada pH 2 (Sangat Asam) di lambung untuk memecah Protein menjadi Pepton!";
+      } else if (enz === 'lipase' && sub === 'lemak' && ph === '8') {
+        box.className = "explanation-box";
+        box.style.borderLeftColor = "var(--success)";
+        box.innerHTML = "<strong>✅ REAKSI BERHASIL! (Optimum)</strong><br>Enzim Lipase Pankreas bekerja optimal pada pH 8 (Basa) di usus halus untuk memecah Lemak teremulsi menjadi Asam Lemak & Gliserol!";
+      } else {
+        box.className = "explanation-box";
+        box.style.borderLeftColor = "var(--danger)";
+        box.innerHTML = "<strong>❌ REAKSI GAGAL / ENZIM INAKTIF!</strong><br>Spesifisitas enzim membutuhkan pasangan substrat dan kondisi keasaman (pH) yang sesuai!";
+      }
+    }
+
+    /* Mesin Kuis & Taksonomi SOLO */
+    function startMissionGame(mNum) {
+      appState.currentMission = mNum;
+      appState.currentQuestionIdx = 0;
+      appState.scores[`m${mNum}`] = 0; // Reset skor kuis agar akumulasi akurat
+      appState.activeQuizList = quizData[`m${mNum}`] || [];
+
+      document.getElementById('quiz-mission-title').innerText = `Game Misi ${mNum}`;
+      showScreen('screen-game');
+      renderQuestion();
+    }
+
+    function startFinalBoss() {
+      appState.currentMission = 'final';
+      appState.currentQuestionIdx = 0;
+      appState.scores.final = 0; // Reset skor evaluasi akhir
+      appState.activeQuizList = quizData.final;
+
+      document.getElementById('quiz-mission-title').innerText = `Evaluasi Akhir (Sumatif)`;
+      showScreen('screen-game');
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const qObj = appState.activeQuizList[appState.currentQuestionIdx];
+      if (!qObj) {
+        finishQuiz();
+        return;
+      }
+
+      document.getElementById('quiz-progress').innerText = `Soal ${appState.currentQuestionIdx + 1} / ${appState.activeQuizList.length}`;
+      document.getElementById('quiz-solo-level').innerText = qObj.solo;
+      document.getElementById('quiz-question-text').innerText = qObj.q;
+
+      const optsContainer = document.getElementById('quiz-options-container');
+      optsContainer.innerHTML = '';
+      document.getElementById('quiz-feedback-box').style.display = 'none';
+      document.getElementById('btn-next-quiz').style.display = 'none';
+
+      qObj.opts.forEach((optText, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'quiz-opt';
+        btn.innerHTML = `<span style="display:inline-block; width:22px; height:22px; border-radius:50%; background:#cbd5e1; text-align:center; line-height:22px; font-size:0.75rem; font-weight:800; color:#1e293b;">${String.fromCharCode(65+idx)}</span> ${optText}`;
+        btn.onclick = () => checkAnswer(idx);
+        optsContainer.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selectedIdx) {
+      const qObj = appState.activeQuizList[appState.currentQuestionIdx];
+      const opts = document.querySelectorAll('.quiz-opt');
+
+      opts.forEach(b => b.onclick = null);
+
+      const feedbackBox = document.getElementById('quiz-feedback-box');
+      feedbackBox.style.display = 'block';
+
+      if (selectedIdx === qObj.ans) {
+        opts[selectedIdx].classList.add('correct');
+        feedbackBox.style.borderLeftColor = "var(--success)";
+        feedbackBox.innerHTML = `<strong>🎉 JAWABAN BENAR!</strong><br>${qObj.exp}`;
+
+        if (appState.currentMission === 'final') {
+          appState.scores.final += 10;
+        } else {
+          appState.scores[`m${appState.currentMission}`] += 10;
+        }
+      } else {
+        opts[selectedIdx].classList.add('incorrect');
+        opts[qObj.ans].classList.add('correct');
+        feedbackBox.style.borderLeftColor = "var(--danger)";
+        feedbackBox.innerHTML = `<strong>❌ JAWABAN KURANG TEPAT!</strong><br>${qObj.exp}`;
+      }
+
+      document.getElementById('btn-next-quiz').style.display = 'inline-flex';
+    }
+
+    function nextQuizQuestion() {
+      appState.currentQuestionIdx++;
+      renderQuestion();
+    }
+
+    function finishQuiz() {
+      if (appState.currentMission === 'final') {
+        appState.completed.final = true;
+        document.getElementById('badge-final').className = "badge badge-success";
+        document.getElementById('badge-final').innerText = `Selesai (${appState.scores.final} Pts)`;
+      } else {
+        appState.completed[`m${appState.currentMission}`] = true;
+        const b = document.getElementById(`badge-m${appState.currentMission}`);
+        if (b) {
+          b.className = "badge badge-success";
+          b.innerText = `Selesai (${appState.scores[`m${appState.currentMission}`]} Pts)`;
+        }
+      }
+
+      // Hitung Persentase Total Progres
+      let doneCount = 0;
+      if (appState.completed.m1) doneCount++;
+      if (appState.completed.m2) doneCount++;
+      if (appState.completed.m3) doneCount++;
+      if (appState.completed.final) doneCount++;
+
+      const pct = Math.round((doneCount / 4) * 100);
+      document.getElementById('total-progress-pct').innerText = `${pct}% Selesai`;
+      document.getElementById('total-progress-bar').style.width = `${pct}%`;
+
+      const totalScore = appState.scores.m1 + appState.scores.m2 + appState.scores.m3 + appState.scores.final;
+      document.getElementById('result-score').innerText = totalScore;
+
+      // Penentuan Tingkat Capaian Taksonomi SOLO
+      let soloCap = "Unistruktural";
+      if (totalScore >= 350) soloCap = "Abstrak Diperluas";
+      else if (totalScore >= 220) soloCap = "Relasional";
+      else if (totalScore >= 100) soloCap = "Multistruktural";
+
+      document.getElementById('result-solo-cap').innerText = soloCap;
+
+      showToast("🏆 Kuis berhasil diselesaikan!");
+      showScreen('screen-result');
+    }
+
+    /* Simpan Refleksi 3M */
+    function saveReflection() {
+      appState.reflection.mindful = document.getElementById('refl-1').value;
+      appState.reflection.meaningful = document.getElementById('refl-2').value;
+      appState.reflection.joyful = document.getElementById('refl-3').value;
+
+      document.getElementById('print-refl-1').innerText = appState.reflection.mindful || "-";
+      document.getElementById('print-refl-2').innerText = appState.reflection.meaningful || "-";
+      document.getElementById('print-refl-3').innerText = appState.reflection.joyful || "-";
+
+      showToast("✨ Refleksi Deep Learning Anda berhasil disimpan!");
+    }
+
+    /* Fungsi Cetak Laporan Belajar */
+    function printReport() {
+      saveReflection();
+      window.print();
+    }
+  </script>
+</body>
+</html>
